@@ -8,11 +8,15 @@ const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onsubmit = () => {
+  const onSubmit = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(res => navigation.navigate('Home'))
+      .then(res => {
+        navigation.navigate('Home', {
+          uid: res.user.uid,
+        });
+      })
       .catch(error =>
         showMessage({
           message: error.message,
@@ -43,7 +47,7 @@ const SignIn = ({navigation}) => {
             secureTextEntry
           />
           <Gap height={20} />
-          <Button title="Sign In" onPress={onsubmit} />
+          <Button title="Sign In" onPress={onSubmit} />
           <Gap height={16} />
           <Button
             title="Create New Account"
